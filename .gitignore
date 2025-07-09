@@ -1,17 +1,7 @@
-*.pkl
-.env
-
-# Mac OS
-.DS_Store
-
-# Jupyter checkpoint files
-.ipynb_checkpoints/
-
-# Python cache
-__pycache__/
-
-# MLflow run logs
-mlruns/
-
-# Hidden files
 *.pyc
+.DS_Store
+__pycache__/
+*.pkl
+*.ipynb_checkpoints/
+mlruns/
+.env
