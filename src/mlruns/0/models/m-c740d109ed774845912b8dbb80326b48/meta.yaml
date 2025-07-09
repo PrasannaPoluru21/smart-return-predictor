@@ -1,0 +1,10 @@
+artifact_location: file:///Users/lakshmiprasannapoluru/Desktop/smart-return-predictor/src/mlruns/0/models/m-c740d109ed774845912b8dbb80326b48/artifacts
+creation_timestamp: 1752074367273
+experiment_id: '0'
+last_updated_timestamp: 1752074370320
+model_id: m-c740d109ed774845912b8dbb80326b48
+model_type: null
+name: model
+source_run_id: b370a4db995c4d73a3cd1f4057bf9d05
+status: 2
+status_message: null

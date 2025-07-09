@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/lakshmiprasannapoluru/Desktop/smart-return-predictor/src/mlruns/0/1cd34f38b6054c3dbab060c084a3f4d5/artifacts
+end_time: 1752077807416
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 1cd34f38b6054c3dbab060c084a3f4d5
+run_name: puzzled-mink-272
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1752077803026
+status: 3
+tags: []
+user_id: lakshmiprasannapoluru

@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/lakshmiprasannapoluru/Desktop/smart-return-predictor/src/mlruns/0/7826523676da4c07ae02a272d0f5e0fb/artifacts
+end_time: 1752077116449
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 7826523676da4c07ae02a272d0f5e0fb
+run_name: bouncy-snipe-991
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1752077112043
+status: 3
+tags: []
+user_id: lakshmiprasannapoluru
