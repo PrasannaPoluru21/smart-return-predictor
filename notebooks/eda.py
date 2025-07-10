@@ -140,7 +140,7 @@ final_df.to_csv("/Users/lakshmiprasannapoluru/Desktop/smart-return-predictor/dat
 
 #Finalising the features for base model
 features = ['is_returned','delivery_delay','payment_value','price','customer_state_SP',
-           'product_category_bed_bath_table','review_score','payment_type_not_defined' ]
+           'product_category_bed_bath_table','review_score']
 
 #Setting feature and target columns
 X = final_df[features].drop(columns=['is_returned'])
