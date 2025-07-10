@@ -82,7 +82,7 @@ for name, model in models.items():
     model.fit(X_train, y_train)
     y_prob = model.predict_proba(X_test)[:, 1]
 
-    threshold = 0.65  # Based on your earlier tuning
+    threshold = 0.65  # Based on the earlier threshold tuning
     y_pred = (y_prob > threshold).astype(int)
 
     print(f"\n Results for {name} at threshold = {threshold}")
