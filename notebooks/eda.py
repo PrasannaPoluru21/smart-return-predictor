@@ -145,3 +145,6 @@ features = ['is_returned','delivery_delay','payment_value','price','customer_sta
 #Setting feature and target columns
 X = final_df[features].drop(columns=['is_returned'])
 y = final_df['is_returned']
+
+X.to_csv("../data/X.csv", index=False)
+y.to_csv("../data/y.csv", index=False)
