@@ -15,6 +15,7 @@ import mlflow.sklearn
 import matplotlib.pyplot as plt
 import seaborn as sns
 import os
+from mlflow import register_model
 
 #Importing data
 X = pd.read_csv("../data/X.csv") 
@@ -98,7 +99,7 @@ with mlflow.start_run(run_name='lr_return_classifier'):
             "f1_score_macro": report_lr['macro avg']['f1-score'],
             "roc_auc_lr": roc_auc_lr})
 
-    mlflow.sklearn.log_model(lr,"Logistic Regression")
+    mlflow.sklearn.log_model(lr,artifact_path="model")
 
 #Trying RF, XGBoost, LGB models
 models = {
@@ -167,5 +168,11 @@ for name, data in trained_models.items():
         os.makedirs("outputs", exist_ok=True)
         plt.savefig(f"outputs/confusion_matrix_{name}.png")
         mlflow.log_artifact(f"outputs/confusion_matrix_{name}.png")
-        mlflow.sklearn.log_model(model,f"{name}_model")
+        mlflow.sklearn.log_model(model,artifact_path="model")
         print(f"Logged {name} model and metrics to MLflow")
+
+#Register the model
+model_name = "XGBoost_model"
+run_id= input("Enter run ID :")
+model_uri = f"runs:/{run_id}/model"
+result = mlflow.register_model(model_uri, model_name)
