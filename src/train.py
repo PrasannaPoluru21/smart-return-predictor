@@ -9,6 +9,13 @@ from sklearn.ensemble import RandomForestClassifier
 import xgboost as xgb
 import lightgbm as lgb
 
+# from xgboost import XGBClassifier
+import mlflow
+import mlflow.sklearn
+import matplotlib.pyplot as plt
+import seaborn as sns
+import os
+
 #Importing data
 X = pd.read_csv("../data/X.csv") 
 y = pd.read_csv("../data/y.csv")
@@ -30,13 +37,20 @@ scaler= StandardScaler()
 X_train[num_cols]=scaler.fit_transform(X_train[num_cols])
 X_test[num_cols]=scaler.transform(X_test[num_cols])
 
-#Train Baseline Model
-model= LogisticRegression(class_weight='balanced', max_iter=1000, random_state=42)
-model.fit(X_train, y_train)
-y_pred= model.predict(X_test)
-y_prob = model.predict_proba(X_test)[:, 1]
+X_train.to_csv("../data/X_train.csv", index=False)
+X_test.to_csv("../data/X_test.csv", index=False)
 
-#Evaluate the model
+y_train.to_csv("../data/y_train.csv", index=False)
+y_test.to_csv("../data/y_test.csv", index=False)
+
+#Train Baseline Model
+params={'class_weight':'balanced', 'max_iter':1000, 'random_state':42}
+lr= LogisticRegression(class_weight='balanced', max_iter=1000, random_state=42)
+lr.fit(X_train, y_train)
+y_pred= lr.predict(X_test)
+y_prob = lr.predict_proba(X_test)[:, 1]
+
+# Evaluate the model
 print(confusion_matrix(y_test, y_pred))
 print(classification_report(y_test, y_pred))
 print("ROC AUC Score:", roc_auc_score(y_test, y_prob))
@@ -67,8 +81,24 @@ y_pred_final = (y_prob > threshold).astype(int)
 precision = precision_score(y_test, y_pred_final)
 recall = recall_score(y_test, y_pred_final)
 f1 = f1_score(y_test, y_pred_final)
-roc_auc = roc_auc_score(y_test, y_prob)
-print('precision :',precision,'\n','recall :',recall,'\n','f1_score :',f1,'\n','roc-auc:',roc_auc,'\n')
+roc_auc_lr = roc_auc_score(y_test, y_prob)
+report_lr =classification_report(y_test, y_pred_final, output_dict=True)
+print('precision :',precision,'\n','recall :',recall,'\n','f1_score :',f1,'\n','roc-auc:',roc_auc_lr,'\n')
+
+mlflow.set_tracking_uri('http://127.0.0.1:5000')
+mlflow.set_experiment('smart_return_predictor_v1')
+
+with mlflow.start_run(run_name='lr_return_classifier'):
+    mlflow.log_params(params)
+    mlflow.log_metrics({ "accuracy":report_lr['accuracy'],
+            "precision_class_0": report_lr['0']['precision'],
+            "precision_class_1": report_lr['1']['precision'],
+            "recall_class_0": report_lr['0']['recall'],
+            "recall_class_1": report_lr['1']['recall'],
+            "f1_score_macro": report_lr['macro avg']['f1-score'],
+            "roc_auc_lr": roc_auc_lr})
+
+    mlflow.sklearn.log_model(lr,"Logistic Regression")
 
 #Trying RF, XGBoost, LGB models
 models = {
@@ -76,16 +106,66 @@ models = {
     "XGBoost": xgb.XGBClassifier(scale_pos_weight=100, use_label_encoder=False, eval_metric='logloss', random_state=42),
     "LightGBM": lgb.LGBMClassifier(scale_pos_weight=100, random_state=42)
 }
+trained_models={}
+threshold = 0.65
+
 #Added scale_pos_weight as classes are highly imbalanced
 for name, model in models.items():
     print(f"\n Training {name}")
     model.fit(X_train, y_train)
+    
     y_prob = model.predict_proba(X_test)[:, 1]
-
-    threshold = 0.65  # Based on the earlier threshold tuning
     y_pred = (y_prob > threshold).astype(int)
+
+    cm=confusion_matrix(y_test, y_pred)
+    report = classification_report(y_test, y_pred, output_dict=True)
+    roc_auc = roc_auc_score(y_test, y_prob)
 
     print(f"\n Results for {name} at threshold = {threshold}")
     print(confusion_matrix(y_test, y_pred))
     print(classification_report(y_test, y_pred))
     print("ROC AUC Score:", roc_auc_score(y_test, y_prob))
+
+    trained_models[name]={
+        "model" : model,
+        "report": report,
+        "roc_auc": roc_auc,
+        "cm" : cm        
+    }
+
+#MLFlow logginfg for RF, XGBoost, LGB Models 
+mlflow.set_tracking_uri('http://127.0.0.1:5000')
+mlflow.set_experiment('smart_return_predictor_v1')
+for name, data in trained_models.items():
+    model=data['model']
+    report=data['report']
+    roc_auc=data['roc_auc']
+    cm=data['cm']
+    
+    with mlflow.start_run(run_name=f"{name}_return_classifier"):
+        mlflow.log_param("threshold", threshold)
+        mlflow.log_params(model.get_params())
+
+        mlflow.log_metrics({
+            "accuracy": report['accuracy'],
+            "precision_class_0": report['0']['precision'],
+            "precision_class_1": report['1']['precision'],
+            "recall_class_0": report['0']['recall'],
+            "recall_class_1": report['1']['recall'],
+            "f1_score_macro": report['macro avg']['f1-score'],
+            "roc_auc": roc_auc
+        })
+
+        # Confusion Matrix plot
+        plt.figure(figsize=(6, 4))
+        sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
+        plt.title(f"Confusion Matrix_{name}")
+        plt.xlabel("Predicted")
+        plt.ylabel("Actual")
+    
+        # Save confusion matrix
+        os.makedirs("outputs", exist_ok=True)
+        plt.savefig(f"outputs/confusion_matrix_{name}.png")
+        mlflow.log_artifact(f"outputs/confusion_matrix_{name}.png")
+        mlflow.sklearn.log_model(model,f"{name}_model")
+        print(f"Logged {name} model and metrics to MLflow")
