@@ -86,7 +86,7 @@ report_lr =classification_report(y_test, y_pred_final, output_dict=True)
 print('precision :',precision,'\n','recall :',recall,'\n','f1_score :',f1,'\n','roc-auc:',roc_auc_lr,'\n')
 
 mlflow.set_tracking_uri('http://127.0.0.1:5000')
-mlflow.set_experiment('smart_return_predictor_v1')
+mlflow.set_experiment('smart_return_predictor_v2')
 
 with mlflow.start_run(run_name='lr_return_classifier'):
     mlflow.log_params(params)
@@ -135,7 +135,7 @@ for name, model in models.items():
 
 #MLFlow logginfg for RF, XGBoost, LGB Models 
 mlflow.set_tracking_uri('http://127.0.0.1:5000')
-mlflow.set_experiment('smart_return_predictor_v1')
+mlflow.set_experiment('smart_return_predictor_v2')
 for name, data in trained_models.items():
     model=data['model']
     report=data['report']
