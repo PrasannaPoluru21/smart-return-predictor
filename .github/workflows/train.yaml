@@ -27,3 +27,7 @@ jobs:
     - name: Train Model
       run: |
         python train.py
+
+    - name: Run training script
+       working-directory: ${{ github.workspace }}
+        run: python train.py
