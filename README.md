@@ -56,7 +56,6 @@ This project simulates a real-world ML workflow:
 - REST API to serve predictions
   
 ## Deployment and MLOps
-
 - Developed a Flask application (`app.py`) to serve predictions
 - Used HTML templates to collect user input and display results
 - Containerized the application using Docker
@@ -71,7 +70,6 @@ python train.py
 ```
 
 # 2. Run the Flask App
-
 ```bash
 python app.py
 # or via Docker
@@ -80,11 +78,9 @@ docker run -p 5001:5000 smart-return-app
 ```
 
 # 3. Use the App
-
 Visit `http://localhost:5001` and input feature values to get return predictions.
 
 ## Future Improvements
-
 - Add monitoring for prediction drift and logs
 - Visualize model metrics and input trends using Streamlit or similar tools
 - Version models and track performance over time
