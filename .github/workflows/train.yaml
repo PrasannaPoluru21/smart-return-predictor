@@ -25,4 +25,5 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run training script
-      run: python path/to/train.py   # e.g., src/train.py
+           run: python ./train.py
+            working-directory: ./  # Add this line to ensure it's running from correct folder
