@@ -62,3 +62,123 @@ smart-return-predictor/
 ### Contact
 **Prasanna Poluru**  
 [LinkedIn](https://www.linkedin.com/in/prasanna-poluru/) | prasanna.poluru.data@gmail.com
+
+
+
+**Smart Return Predictor** is a machine learning project built to predict whether a product will be returned based on customer and order details. It covers the complete lifecycle of a data science project, including data preprocessing, model selection, deployment, and CI/CD automation.
+
+---
+
+## Project Overview
+
+This project solves a binary classification problem using a dataset containing features such as delivery delay, payment value, product category, review score, and payment type. The main goal is to predict the likelihood of a product return.
+
+Key aspects of the project include:
+
+- Data cleaning, encoding, and scaling
+- Class imbalance handling
+- Comparison of multiple models
+- MLflow experiment tracking
+- Local deployment using Flask
+- Docker containerization
+- GitHub Actions for CI/CD automation
+
+---
+
+## Model Development and Tracking
+
+### Steps Completed:
+
+- Performed data preprocessing including one-hot encoding and handling missing values
+- Handled class imbalance using `class_weight='balanced'`
+- Trained and evaluated four models: Logistic Regression, Random Forest, LightGBM, and XGBoost
+- Chose XGBoost based on overall performance
+- Tuned classification threshold for better recall on the minority class
+- Logged metrics, parameters, confusion matrix, and model artifacts using MLflow
+- Saved model and scaler as pickle files
+
+---
+
+## Deployment and MLOps
+
+- Developed a Flask application (`app.py`) to serve predictions
+- Used HTML templates to collect user input and display results
+- Containerized the application using Docker
+- Deployed the container locally and accessed it at `http://localhost:5001`
+- Set up a GitHub Actions workflow (`train.yaml`) to automatically run `train.py` and retrain the model on every push
+
+---
+
+## Directory Structure
+
+```
+smart-return-predictor/
+├── app.py
+├── train.py
+├── Dockerfile
+├── requirements.txt
+├── models/
+│   ├── model.pkl
+│   └── scaler.pkl
+├── templates/
+│   └── index.html
+├── .github/
+│   └── workflows/
+│       └── train.yaml
+├── mlruns/
+├── mlartifacts/
+├── data/
+└── notebooks/
+```
+
+---
+
+## Running the Project
+
+### 1. Train the Model
+
+```bash
+python train.py
+```
+
+### 2. Run the Flask App
+
+```bash
+python app.py
+# or via Docker
+docker build -t smart-return-app .
+docker run -p 5001:5000 smart-return-app
+```
+
+### 3. Use the App
+
+Visit `http://localhost:5001` and input feature values to get return predictions.
+
+---
+
+## Performance Summary
+
+- **ROC AUC Score**: 0.927
+- **Confusion Matrix after threshold tuning**:
+  ```
+  [[22047   972]
+   [   61    47]]
+  ```
+
+---
+
+## Future Improvements
+
+- Add monitoring for prediction drift and logs
+- Visualize model metrics and input trends using Streamlit or similar tools
+- Version models and track performance over time
+- Enable cloud deployment for scalability
+
+---
+
+## Author
+
+**Prasanna Poluru**  
+M.S. in Data Science, University of Colorado Boulder  
+[LinkedIn](https://www.linkedin.com/in/prasannapoluru) | [GitHub](https://github.com/PrasannaPoluru21)
+"""
