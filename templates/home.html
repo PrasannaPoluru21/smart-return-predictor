@@ -1,0 +1,24 @@
+<html>
+    <body>
+        <div class="login">
+            <h1> Return Prediction</h1>
+
+            <!-- Main input for recieving query to our ML-->
+            <form action="{{ url_for('predict')}}" method="post">
+                <input type="text" name="delivery_delay" placeholder="delivery_delay" required="required" /> <br>
+                <input type="text" name="payment_value" placeholder="payment_value" required="required" /> <br>
+                <input type="text" name="price" placeholder="price" required="required" /> <br>
+                <input type="text" name="customer_state_SP" placeholder="customer_state_SP" required="required" /> <br>
+                <input type="text" name="product_category_bed_bath_table" placeholder="product_category_bed_bath_table" required="required" /> <br>
+                <input type="text" name="review_score" placeholder="review_score" required="required" /> <br>
+                <!-- <input type="text" name="payment_type_not_defined" placeholder="payment_type_not_defined" required="required" /> <br> -->
+
+                <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
+            </form>
+
+            <h2>
+               Return Prediction: {{results}}
+            </h2>
+        </div>
+     </body>
+</html>
