@@ -27,7 +27,6 @@ This project simulates a real-world ML workflow:
 - Simulate monitoring for production-readiness
   
 ## Tech Stack
-
 | Component      | Tools Used                                   |
 |----------------|-----------------------------------------------|
 | Language       | Python                                        |
