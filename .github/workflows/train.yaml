@@ -25,5 +25,4 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run training script
-        working-directory: ${{ github.workspace }}
-        run: python train.py
+      run: python path/to/train.py   # e.g., src/train.py
