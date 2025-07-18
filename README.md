@@ -1,7 +1,12 @@
 **Smart Return Predictor** is a machine learning project built to predict whether a product will be returned based on customer and order details, in an e-commerce setting. It covers the complete lifecycle of a data science project, including data preprocessing, model selection, deployment, complete with MLOps features like model tracking, deployment, and monitoring.
 
-### Problem Statement
+## Problem Statement
 Can we predict if an order will be returned based on delivery speed, product type, customer behavior, and other features?
+
+## Dataset
+Used the [Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce):
+- Multiple CSVs (orders, products, reviews, payments, etc.)
+- Merged key tables to engineer features like delivery time, payment method, etc.
 
 ## Project Overview
 This project solves a binary classification problem using a dataset containing features such as delivery delay, payment value, product category, review score, and payment type. The main goal is to predict the likelihood of a product return.
@@ -13,13 +18,7 @@ Key aspects of the project include:
 - MLflow experiment tracking
 - Local deployment using Flask
 - Docker containerization
-
-### Dataset
-Used the [Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce):
-- Multiple CSVs (orders, products, reviews, payments, etc.)
-- Merged key tables to engineer features like delivery time, payment method, etc.
-
-## Project Overview
+  
 This project simulates a real-world ML workflow:
 - Predict whether an order will be returned (using historical e-commerce data)
 - Track experiments using MLflow
@@ -27,7 +26,7 @@ This project simulates a real-world ML workflow:
 - Automate training and deployment via GitHub Actions
 - Simulate monitoring for production-readiness
   
-### Tech Stack
+## Tech Stack
 
 | Component      | Tools Used                                   |
 |----------------|-----------------------------------------------|
@@ -42,7 +41,7 @@ This project simulates a real-world ML workflow:
 
 ## Model Development and Tracking
 
-### Steps Completed:
+## Steps Completed:
 - Performed data preprocessing including one-hot encoding and handling missing values
 - Handled class imbalance using `class_weight='balanced'`
 - Trained and evaluated four models: Logistic Regression, Random Forest, LightGBM, and XGBoost
@@ -92,10 +91,10 @@ Visit `http://localhost:5001` and input feature values to get return predictions
 - Version models and track performance over time
 - Enable cloud deployment for scalability
 
-### Acknowledgements
+## Acknowledgements
 - Dataset by Olist on Kaggle
 - Inspiration from real-world MLOps and product analytics use cases
 
-### Contact
+## Contact
 **Prasanna Poluru**  
 [LinkedIn](https://www.linkedin.com/in/prasanna-poluru/) | prasanna.poluru.data@gmail.com
